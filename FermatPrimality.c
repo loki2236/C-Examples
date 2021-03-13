@@ -4,10 +4,11 @@
 
 #define NUM_TEST 50
 
-int isPrime_fermat(int a, int runs);
-int mcd(int a, int b);
-int randCoprime(int a);
-unsigned long int modPow(int b, int e, int m);
+int isPrime_fermat(unsigned long int a, int runs);
+unsigned long int mcd(unsigned long int a, unsigned long int b);
+unsigned long int randCoprime(unsigned long int a);
+unsigned long long int modPow(unsigned long long int b, unsigned long long int e, unsigned long long int m);
+long long int modexp_rl(long long  int b, long long  int e, long long int m);
 
 int main()
 {
@@ -26,7 +27,7 @@ int main()
 
 // Returns a fast compositeness test result
 // using Fermat little theorem
-int isPrime_fermat(int a, int runs){
+int isPrime_fermat(unsigned long int a, int runs){
     for (int i=0;i<runs;i++){
         int r = randCoprime(a);
         if (modPow(r,a-1,a) != 1)
@@ -39,7 +40,7 @@ int isPrime_fermat(int a, int runs){
 
 // Returns MCD between two numbers
 // useful when testing for coprimes
-int mcd(int a, int b){
+unsigned long int mcd(unsigned long int a, unsigned long int b){
     if (b==0)
         return a;
         
@@ -47,7 +48,7 @@ int mcd(int a, int b){
 }
 
 // Returns a random number coprime with a
-int randCoprime(int a){
+unsigned long int randCoprime(unsigned long int a){
     // Random number between 2 and a-2
     int r = (rand() % (a-2+1))+2;
     while (mcd(a,r) != 1){
@@ -57,17 +58,33 @@ int randCoprime(int a){
 }
 
 // Modular exponentiation implemented as bitshifts
-// What is the actual tyype limit on this function?
-unsigned long int modPow(int b, int e, int m){
+// What is the actual type limit on this function?
+unsigned long long int modPow(unsigned long long int b, unsigned long long int e, unsigned long long int m){
+    printf("ModPow: %d,%d,%d\n", b,e,m);
     if(m==1)
         return 0;
-    int r=1;
+    unsigned long long int r=1;
     b=b%m;
     while(e>0){
         if(e%2 ==1)
             r=(r*b)%m;
         e=e>>1;
         b=(b*b)%m;
+    }
+    return r;
+}
+
+// Alternative Version?
+long long int modexp_rl(long long  int b, long long  int e, long long int m){
+    long long r = 1;
+    while (1){
+        if (e % 2 == 1)
+            r = (r * b) % m;
+
+        e /= 2;
+        if (e == 0)
+            break;
+        b = (b * b) % m;
     }
     return r;
 }
