@@ -67,9 +67,9 @@ unsigned long long int modPow(unsigned long long int b, unsigned long long int e
     b=b%m;
     while(e>0){
         if(e%2 ==1)
-            r=(r*b)%m;
+            r=(r%m*b%m)%m;
         e=e>>1;
-        b=(b*b)%m;
+        b=(b%m*b%m)%m;
     }
     return r;
 }
