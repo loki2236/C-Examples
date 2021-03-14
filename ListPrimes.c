@@ -226,7 +226,7 @@ void checkList(struct primeNumberNode *pHead){
             m++;
         }
         else{
-            //printf("Possible Prime in list: %Ld\n", pActual->number);
+            printf("Possible Prime in list: %Ld\n", pActual->number);
         }
         pActual = pActual->next;
     }
@@ -257,5 +257,6 @@ int digitalRoot(unsigned long long n)
     // If digit sum is multiple of 9, answer 
     // 9, else remainder with 9. 
     return (ans%9 == 0)? 9 : ans % 9; 
+
     //return (ans>=10)? digitalRoot(ans): ans;
 } 
