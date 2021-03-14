@@ -5,9 +5,9 @@
 #include <stdlib.h>
 
 #define NUMBERS_TO_TEST 2000000
-#define NUM_FERMAT_ITERATIONS 50
+#define NUM_FERMAT_ITERATIONS 25
 #define NUM_MILLER_ITERATIONS 15
-#define NUMBERS_PRIME_QMT 100
+#define NUMBERS_PRIME_QMT 25
 
 struct primeNumberNode{
     unsigned long int number;
@@ -24,7 +24,7 @@ unsigned long int randCoprime(unsigned long int a);
 unsigned long long int modPow(unsigned long long int b, unsigned long long int e, unsigned long long int m);
 int digitalRoot(unsigned long long n);
 
-void insertInList(struct primeNumberNode **pPosition, unsigned long long int i);
+void insertInList(struct primeNumberNode **pHead, struct primeNumberNode **pActual,unsigned long long int i);
 void checkList(struct primeNumberNode *pHead);
 
 //Array containing the first prime numbers  to do a quick mod test
@@ -36,14 +36,17 @@ int main()
 {
     // Pointer to the start of the list
     struct primeNumberNode *primeList = NULL;
+    struct primeNumberNode *pActual = NULL;
 
+    srand(time(0));
     // Start the Clock
     clock_t tic = clock();
     //insert the basic numbers into the lists (2 not in the multiple-checking list, that's just for odd primes)
-    insertInList(&primeList, 2);
+    insertInList(&primeList, &pActual, 2);
 
-    // Start the big loop (just odd numbers // starting from 7)
+    // Start the big loop (just odd numbers // starting from 3)
     for(unsigned long int i = 3;i<NUMBERS_TO_TEST;i+=2){
+        if(i%10 != 5 && i>5){
         if(digitalRoot(i)%3 != 0 ){ //Numbers which digital roots end in 3,6 or 9 are not primes
             // Check basic things (number must be odd was already checked, not a perfect square, not multiple of other prime)
             if(!isPrime_multiple(i)){
@@ -59,15 +62,16 @@ int main()
                                 primes[cant_primes] = i;
                                 cant_primes++;
                                 //Insert the possible prime in a List
-                                insertInList(&primeList, i);
+                                insertInList(&primeList, &pActual,i);
                             }
                         }else{
                             //Insert the possible prime in a List
-                            insertInList(&primeList, i);
+                            insertInList(&primeList, &pActual, i);
                         }
                     }
                 }
             }
+        }
         }
     }
     
@@ -178,8 +182,7 @@ int isPrime_miller(unsigned long long int n, int runs){
 }
 
 // Inserts a node into a Single-linked list
-void insertInList(struct primeNumberNode **pPosition, unsigned long long int i){
-    struct primeNumberNode *pActual;
+void insertInList(struct primeNumberNode **pHead, struct primeNumberNode **pActual,unsigned long long int i){
 
     // Allocate memory for new node 
     struct primeNumberNode* new_node = (struct primeNumberNode*)malloc(sizeof(struct primeNumberNode));
@@ -193,16 +196,18 @@ void insertInList(struct primeNumberNode **pPosition, unsigned long long int i){
     new_node->number = i;
     new_node->next = NULL;
 
-    if (*pPosition == NULL){
-        *pPosition = new_node;
+    if (*pHead == NULL){
+        *pHead = new_node;
+        *pActual = *pHead;
         return;
     }
-    pActual = *pPosition;
-    // Browse the list 'til the end
-    while(pActual->next != NULL){
-        pActual = pActual->next;
+
+    // Insert in the next pos
+    if((*pActual)->next == NULL){
+        (*pActual)->next = new_node;
+        *pActual = new_node;
     }
-    pActual->next = new_node;
+    
 }
 
 // Travels along the list
@@ -229,7 +234,7 @@ void checkList(struct primeNumberNode *pHead){
 }
 
 int isPrime_multiple(unsigned long long int a){
-    for(unsigned long int i = 0;i<cant_primes;i++){
+    for(unsigned int i = 0;i<cant_primes;i++){
         if ((a % primes[i]) == 0){
             return 1;
         }
