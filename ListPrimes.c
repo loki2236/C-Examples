@@ -4,7 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define NUMBERS_TO_TEST 2000000
+#define NUMBERS_TO_TEST 20000000
 #define NUM_FERMAT_ITERATIONS 25
 #define NUM_MILLER_ITERATIONS 15
 #define NUMBERS_PRIME_QMT 25
@@ -222,11 +222,11 @@ void checkList(struct primeNumberNode *pHead){
     while(pActual->next != NULL){
         
         if (!isPrime_miller(pActual->number, NUM_MILLER_ITERATIONS)){
-            printf("We've found a pseudoprime: %Ld\n", pActual->number);
+            printf("We've found a pseudoprime: %Ld (DigitalRoot: %d)\n", pActual->number, digitalRoot(pActual->number));
             m++;
         }
         else{
-            printf("Possible Prime in list: %Ld\n", pActual->number);
+            //printf("Possible Prime in list: %Ld\n", pActual->number);
         }
         pActual = pActual->next;
     }
@@ -248,15 +248,14 @@ int digitalRoot(unsigned long long n)
     // n won't ever be 0, so, nada
     //if (n == 0) 
         //return 0; 
-  
-    // Count sum of digits under mod 9 
-    int ans = 0; 
-    while (n>10){
+    unsigned int ans = 0; 
+    while (n>0){
         ans += n%10;
         n /= 10;
     }
-  
+
     // If digit sum is multiple of 9, answer 
     // 9, else remainder with 9. 
     return (ans%9 == 0)? 9 : ans % 9; 
+    //return (ans>=10)? digitalRoot(ans): ans;
 } 
