@@ -1,0 +1,30 @@
+- Variables
+Es una referencia a un espacio en memoria. Tiene un identificador (nombre de la variable) y un tamaño en memoria que depende del tipo de dato que almacene.
+
+- Etapas del proceso de compilado
+Preprocesamiento
+Compilación
+Ensamblado
+Enlazado
+
+
+
+- Problemas basicos (Ingreso de datos / calculos con variables)
+cin / cout
+operaciones basicas (Suma, resta, multiplicacion, division y resto)
+
+- Estructuras de control
+Las estructuras de control permiten modificar el flujo de ejecución de las instrucciones de un programa.
+If-Then-Else
+While
+For
+
+- Funciones / Modularizacion
+Una función es un código que realiza una tarea específica y puede retornar un valor.
+Las funciones pueden tomar parámetros que modifiquen su funcionamiento.
+Las funciones son utilizadas para descomponer grandes problemas en tareas simples y 
+para implementar operaciones que son comúnmente utilizadas durante un programa y de esta manera reducir la cantidad de código repetido.
+
+- Parametros
+Son los valores que se le 'pasan' a una funcion como argumentos.
+

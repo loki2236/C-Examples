@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include "./milibreria.h"
 
 unsigned int myStrlen (char* input);
 int test_myStrlen(void);
@@ -24,6 +25,7 @@ int test_myStrcat();
 
 int main()
 {
+    hola();
     test_myStrlen();
     test_myIsEmpty();
     test_myStrcat();
